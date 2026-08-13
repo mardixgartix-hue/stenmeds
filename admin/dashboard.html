@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Dashboard — STENMEDS BIOTECH Admin</title>
+  <meta name="robots" content="noindex,nofollow"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --primary:#1a56db;--primary-dark:#1143b0;--accent:#0ea5e9;
+      --success:#16a34a;--danger:#dc2626;--warning:#f59e0b;
+      --bg:#0f172a;--surface:#1e293b;--surface2:#293548;--surface3:#334155;
+      --border:#334155;--text:#f1f5f9;--text-muted:#94a3b8;
+      --radius:12px;--sidebar-w:260px;
+    }
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex}
+
+    /* ── SIDEBAR ── */
+    .sidebar{
+      width:var(--sidebar-w);min-height:100vh;background:var(--surface);
+      border-right:1px solid var(--border);display:flex;flex-direction:column;
+      position:fixed;left:0;top:0;bottom:0;z-index:100;transition:transform .3s;
+    }
+    .sidebar-brand{padding:1.3rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.7rem}
+    .sidebar-brand img{height:36px;background:#fff;padding:4px 8px;border-radius:7px}
+    .sidebar-brand span{font-size:.7rem;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase}
+    .sidebar-nav{flex:1;padding:1rem 0}
+    .sidebar-link{
+      display:flex;align-items:center;gap:.7rem;padding:.7rem 1.2rem;
+      color:var(--text-muted);text-decoration:none;font-size:.85rem;font-weight:500;
+      border-left:3px solid transparent;transition:all .15s;cursor:pointer;
+    }
+    .sidebar-link:hover,.sidebar-link.active{color:var(--text);background:var(--surface2);border-left-color:var(--accent)}
+    .sidebar-link i{width:20px;text-align:center;font-size:.9rem}
+    .sidebar-footer{padding:1rem 1.2rem;border-top:1px solid var(--border);font-size:.72rem;color:var(--text-muted)}
+    .sidebar-divider{height:1px;background:var(--border);margin:.5rem 1.2rem}
+
+    /* ── MAIN ── */
+    .main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:.9rem 2rem;background:var(--surface);border-bottom:1px solid var(--border);
+      position:sticky;top:0;z-index:50;
+    }
+    .topbar-title{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:.6rem}
+    .topbar-title i{color:var(--accent);font-size:1rem}
+    .topbar-actions{display:flex;align-items:center;gap:.7rem}
+    .topbar-user{font-size:.8rem;color:var(--text-muted)}
+    .content{flex:1;padding:2rem}
+
+    /* ── STAT CARDS ── */
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+    .stat-card{
+      background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+      padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;
+    }
+    .stat-icon{
+      width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+      font-size:1.1rem;flex-shrink:0;
+    }
+    .stat-num{font-size:1.5rem;font-weight:800;line-height:1}
+    .stat-label{font-size:.75rem;color:var(--text-muted);margin-top:.15rem}
+
+    /* ── PANEL ── */
+    .panel{
+      background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+      margin-bottom:1.5rem;overflow:hidden;
+    }
+    .panel-header{
+      display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem;
+      padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);
+    }
+    .panel-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:.5rem}
+    .panel-title i{color:var(--accent);font-size:.9rem}
+    .panel-body{padding:1.5rem}
+
+    /* ── FORM ── */
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .form-group{margin-bottom:1.1rem}
+    .form-group.full{grid-column:1/-1}
+    label{display:block;font-size:.78rem;font-weight:600;color:var(--text-muted);margin-bottom:.35rem;letter-spacing:.03em}
+    input[type=text],input[type=number],input[type=password],select,textarea{
+      width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;
+      color:var(--text);font-size:.88rem;font-family:inherit;padding:.65rem .9rem;outline:none;
+      transition:border-color .2s,box-shadow .2s;
+    }
+    input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.18)}
+    select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2394a3b8'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+    textarea{resize:vertical;min-height:90px}
+    select option{background:var(--surface);color:var(--text)}
+
+    /* ── IMAGE UPLOAD ── */
+    .upload-area{
+      border:2px dashed var(--border);border-radius:10px;padding:2rem;
+      text-align:center;cursor:pointer;transition:all .2s;position:relative;
+    }
+    .upload-area:hover{border-color:var(--accent);background:rgba(14,165,233,.04)}
+    .upload-area.has-image{border-color:var(--success);background:rgba(22,163,74,.05)}
+    .upload-area i.upload-main-icon{font-size:2rem;color:var(--text-muted);margin-bottom:.6rem}
+    .upload-area p{font-size:.82rem;color:var(--text-muted)}
+    .upload-area p strong{color:var(--accent)}
+    .upload-input{position:absolute;inset:0;opacity:0;cursor:pointer}
+    .upload-preview{max-height:120px;max-width:100%;border-radius:8px;margin-top:.6rem;display:none}
+
+    /* ── BUTTONS ── */
+    .btn{
+      padding:.65rem 1.3rem;border:none;border-radius:8px;font-family:inherit;
+      font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;
+      display:inline-flex;align-items:center;gap:.45rem;
+    }
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(26,86,219,.35)}
+    .btn-success{background:var(--success);color:#fff}
+    .btn-success:hover{background:#15803d}
+    .btn-danger{background:var(--danger);color:#fff;font-size:.78rem;padding:.45rem .8rem}
+    .btn-danger:hover{background:#b91c1c}
+    .btn-ghost{background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)}
+    .btn-ghost:hover{color:var(--text);border-color:var(--accent)}
+    .btn-warning{background:var(--warning);color:#1e293b}
+    .btn-warning:hover{background:#d97706}
+    .btn-sm{font-size:.78rem;padding:.45rem .9rem}
+    .btn-lg{font-size:.95rem;padding:.8rem 2rem}
+
+    /* ── TABLE ── */
+    .products-table{width:100%;border-collapse:collapse}
+    .products-table th{
+      text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;
+      color:var(--text-muted);font-weight:600;padding:.7rem 1rem;
+      border-bottom:1px solid var(--border);
+    }
+    .products-table td{
+      padding:.7rem 1rem;border-bottom:1px solid var(--border);font-size:.85rem;vertical-align:middle;
+    }
+    .products-table tr:last-child td{border-bottom:none}
+    .products-table tr:hover td{background:var(--surface2)}
+    .product-thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;background:var(--surface2);display:block}
+    .product-thumb-placeholder{
+      width:44px;height:44px;border-radius:8px;background:var(--surface2);
+      display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:.9rem;
+    }
+    .badge{display:inline-block;padding:.2rem .55rem;border-radius:5px;font-size:.7rem;font-weight:600}
+    .badge-blue{background:rgba(14,165,233,.15);color:#7dd3fc}
+    .badge-green{background:rgba(22,163,74,.15);color:#86efac}
+    .badge-purple{background:rgba(168,85,247,.15);color:#d8b4fe}
+    .badge-amber{background:rgba(245,158,11,.15);color:#fcd34d}
+    .badge-pink{background:rgba(236,72,153,.15);color:#f9a8d4}
+    .badge-red{background:rgba(220,38,38,.15);color:#fca5a5}
+    .badge-teal{background:rgba(13,148,136,.15);color:#5eead4}
+    .badge-default{background:rgba(148,163,184,.15);color:#94a3b8}
+    .badge-source{font-size:.65rem;padding:.15rem .4rem;margin-left:.3rem}
+    .empty-state{text-align:center;padding:3rem 1rem;color:var(--text-muted)}
+    .empty-state i{font-size:2.5rem;margin-bottom:.7rem;display:block;opacity:.5}
+    .empty-state p{font-size:.9rem}
+
+    /* ── TOAST ── */
+    .toast{
+      position:fixed;bottom:2rem;right:2rem;background:var(--success);color:#fff;
+      padding:.8rem 1.4rem;border-radius:10px;font-size:.85rem;font-weight:600;
+      display:flex;align-items:center;gap:.5rem;
+      transform:translateY(100px);opacity:0;transition:all .35s;z-index:200;
+      box-shadow:0 10px 30px rgba(0,0,0,.4);
+    }
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast.error{background:var(--danger)}
+
+    /* ── RESPONSIVE ── */
+    .hamburger-admin{display:none;background:none;border:none;color:var(--text);font-size:1.3rem;cursor:pointer;padding:4px}
+    @media(max-width:768px){
+      .sidebar{transform:translateX(-100%)}
+      .sidebar.open{transform:translateX(0)}
+      .main{margin-left:0}
+      .hamburger-admin{display:block}
+      .form-row{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr 1fr}
+      .content{padding:1.2rem}
+    }
+    @media(max-width:480px){
+      .stats{grid-template-columns:1fr}
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:150;
+      display:none;align-items:center;justify-content:center;padding:1rem;
+    }
+    .modal-overlay.show{display:flex}
+    .modal{
+      background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+      max-width:420px;width:100%;padding:1.8rem;box-shadow:0 20px 50px rgba(0,0,0,.5);
+    }
+    .modal h3{font-size:1rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+    .modal h3 i{color:var(--warning)}
+    .modal p{font-size:.85rem;color:var(--text-muted);margin-bottom:1.2rem}
+    .modal-actions{display:flex;gap:.6rem;justify-content:flex-end}
+
+    /* ── SETTINGS ── */
+    .settings-card{
+      background:var(--surface2);border:1px solid var(--border);border-radius:10px;
+      padding:1.5rem;margin-bottom:1rem;
+    }
+    .settings-card h4{font-size:.9rem;font-weight:700;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
+    .settings-card h4 i{color:var(--accent);font-size:.85rem}
+    .settings-card .desc{font-size:.78rem;color:var(--text-muted);margin-bottom:1rem}
+    .pw-field-wrap{position:relative}
+    .pw-field-wrap input{padding-right:2.5rem}
+    .pw-toggle{
+      position:absolute;right:10px;top:50%;transform:translateY(-50%);
+      background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.85rem;padding:4px
+    }
+    .pw-toggle:hover{color:var(--text)}
+    .pw-msg{font-size:.78rem;margin-top:.5rem;display:none}
+    .pw-msg.show{display:block}
+    .pw-msg.success{color:#86efac}
+    .pw-msg.error{color:#fca5a5}
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <img src="/assets/images/logo.png" alt="Logo"/>
+    <span>Admin Panel</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a class="sidebar-link active" data-view="dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+    <a class="sidebar-link" data-view="add-product"><i class="fa-solid fa-plus-circle"></i> Add New Product</a>
+    <a class="sidebar-link" data-view="manage-products"><i class="fa-solid fa-boxes-stacked"></i> All Products</a>
+    <div class="sidebar-divider"></div>
+    <a class="sidebar-link" data-view="settings"><i class="fa-solid fa-gear"></i> Settings</a>
+    <a class="sidebar-link" href="/index.html" target="_blank"><i class="fa-solid fa-globe"></i> View Website</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a class="sidebar-link" onclick="doLogout()" style="border:none;padding:.5rem 0"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:.8rem">
+      <button class="hamburger-admin" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar-title" id="topbar-title"><i class="fa-solid fa-gauge-high"></i> Dashboard</div>
+    </div>
+    <div class="topbar-actions">
+      <span class="topbar-user"><i class="fa-solid fa-circle" style="color:var(--success);font-size:8px;margin-right:4px"></i>Logged in as <strong>Admin</strong></span>
+      <button class="btn btn-ghost btn-sm" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ============ DASHBOARD VIEW ============ -->
+    <div id="view-dashboard">
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(14,165,233,.12);color:var(--accent)"><i class="fa-solid fa-boxes-stacked"></i></div>
+          <div><div class="stat-num" id="stat-total">0</div><div class="stat-label">Total Products</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(22,163,74,.12);color:var(--success)"><i class="fa-solid fa-layer-group"></i></div>
+          <div><div class="stat-num" id="stat-cats">7</div><div class="stat-label">Categories</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(168,85,247,.12);color:#a855f7"><i class="fa-solid fa-image"></i></div>
+          <div><div class="stat-num" id="stat-images">0</div><div class="stat-label">With Images</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(245,158,11,.12);color:var(--warning)"><i class="fa-solid fa-clock"></i></div>
+          <div><div class="stat-num" id="stat-recent">0</div><div class="stat-label">Added This Week</div></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><i class="fa-solid fa-list"></i> Recently Added Products</div>
+          <button class="btn btn-primary btn-sm" onclick="switchView('add-product')"><i class="fa-solid fa-plus"></i> Add New</button>
+        </div>
+        <div class="panel-body" style="padding:0"><div id="recent-table-wrap"></div></div>
+      </div>
+    </div>
+
+    <!-- ============ ADD PRODUCT VIEW ============ -->
+    <div id="view-add-product" style="display:none">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><i class="fa-solid fa-plus-circle"></i> <span id="form-title">Add New Product</span></div>
+        </div>
+        <div class="panel-body">
+          <form id="product-form" onsubmit="return false">
+            <input type="hidden" id="edit-id" value=""/>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="prod-name">Product Name <span style="color:var(--danger)">*</span></label>
+                <input type="text" id="prod-name" placeholder="e.g. Doxofer Dx Tab" required/>
+              </div>
+              <div class="form-group">
+                <label for="prod-category">Category <span style="color:var(--danger)">*</span></label>
+                <select id="prod-category" required>
+                  <option value="">Select a category...</option>
+                  <option value="respiratory-pulmonology">Respiratory & Pulmonology</option>
+                  <option value="gastrointestinal-digestive">Gastrointestinal & Digestive Health</option>
+                  <option value="hepatology-liver-care">Hepatology (Liver Care)</option>
+                  <option value="bone-health-minerals">Bone Health & Mineral Supplements</option>
+                  <option value="pediatric-care">Pediatric Care / Pain & Fever Relief</option>
+                  <option value="critical-care-injectables">Critical Care / Injectables</option>
+                  <option value="nutritional-energy-supplements">Nutritional & Energy Supplements</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="prod-composition">Composition / Ingredients</label>
+                <input type="text" id="prod-composition" placeholder="e.g. Ambroxol 30mg + Levosalbutamol 1mg"/>
+              </div>
+              <div class="form-group">
+                <label for="prod-form">Dosage Form</label>
+                <select id="prod-form">
+                  <option value="">Select...</option>
+                  <option value="Tablet">Tablet</option>
+                  <option value="Capsule">Capsule</option>
+                  <option value="Syrup">Syrup</option>
+                  <option value="Suspension">Suspension</option>
+                  <option value="Injection">Injection</option>
+                  <option value="Cream">Cream</option>
+                  <option value="Drops">Drops</option>
+                  <option value="Powder">Powder</option>
+                  <option value="Sachet">Sachet</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="prod-packaging">Packaging / Size</label>
+                <input type="text" id="prod-packaging" placeholder="e.g. 10x10 Alu-Alu, 100ml Bottle"/>
+              </div>
+              <div class="form-group">
+                <label for="prod-mrp">MRP (INR)</label>
+                <input type="number" id="prod-mrp" placeholder="e.g. 150" min="0" step="0.01"/>
+              </div>
+            </div>
+            <div class="form-group full">
+              <label for="prod-desc">Product Description</label>
+              <textarea id="prod-desc" placeholder="Describe the product usage, benefits, indications etc."></textarea>
+            </div>
+            <div class="form-group full">
+              <label>Product Image</label>
+              <div class="upload-area" id="upload-area" onclick="document.getElementById('prod-image').click()">
+                <input type="file" class="upload-input" id="prod-image" accept="image/*" onchange="handleImageUpload(event)"/>
+                <i class="fa-solid fa-cloud-arrow-up upload-main-icon" id="upload-icon"></i>
+                <p id="upload-text"><strong>Click to upload</strong> or drag & drop<br>PNG, JPG up to 5MB</p>
+                <img class="upload-preview" id="upload-preview" alt="Preview"/>
+              </div>
+            </div>
+            <div style="display:flex;gap:.7rem;justify-content:flex-end;margin-top:.6rem">
+              <button type="button" class="btn btn-ghost" onclick="resetForm()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+              <button type="button" class="btn btn-success btn-lg" onclick="saveProduct()"><i class="fa-solid fa-floppy-disk"></i> <span id="save-btn-text">Save Product</span></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ MANAGE PRODUCTS VIEW ============ -->
+    <div id="view-manage-products" style="display:none">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><i class="fa-solid fa-boxes-stacked"></i> All Products <span id="products-count" style="font-size:.78rem;color:var(--text-muted);font-weight:400;margin-left:.4rem"></span></div>
+          <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap">
+            <select id="filter-cat" onchange="renderProductsTable()" style="font-size:.8rem;padding:.4rem .7rem;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+              <option value="">All Categories</option>
+              <option value="respiratory-pulmonology">Respiratory & Pulmonology</option>
+              <option value="gastrointestinal-digestive">Gastrointestinal & Digestive</option>
+              <option value="hepatology-liver-care">Hepatology (Liver Care)</option>
+              <option value="bone-health-minerals">Bone Health & Minerals</option>
+              <option value="pediatric-care">Pediatric Care</option>
+              <option value="critical-care-injectables">Critical Care / Injectables</option>
+              <option value="nutritional-energy-supplements">Nutritional Supplements</option>
+            </select>
+            <select id="filter-source" onchange="renderProductsTable()" style="font-size:.8rem;padding:.4rem .7rem;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+              <option value="">All Sources</option>
+              <option value="builtin">Built-in (Original)</option>
+              <option value="admin">Admin Added</option>
+            </select>
+            <button class="btn btn-primary btn-sm" onclick="switchView('add-product')"><i class="fa-solid fa-plus"></i> Add New</button>
+          </div>
+        </div>
+        <div class="panel-body" style="padding:0;overflow-x:auto"><div id="all-table-wrap"></div></div>
+      </div>
+    </div>
+
+    <!-- ============ SETTINGS VIEW ============ -->
+    <div id="view-settings" style="display:none">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><i class="fa-solid fa-gear"></i> Settings</div>
+        </div>
+        <div class="panel-body">
+          <!-- Change Password -->
+          <div class="settings-card">
+            <h4><i class="fa-solid fa-key"></i> Change Password</h4>
+            <p class="desc">Update your admin login password. You will need to enter the current password first.</p>
+            <div class="form-group">
+              <label for="current-pw">Current Password</label>
+              <div class="pw-field-wrap">
+                <input type="password" id="current-pw" placeholder="Enter current password"/>
+                <button class="pw-toggle" type="button" onclick="toggleField('current-pw')"><i class="fa-solid fa-eye"></i></button>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="new-pw">New Password</label>
+                <div class="pw-field-wrap">
+                  <input type="password" id="new-pw" placeholder="Min. 6 characters"/>
+                  <button class="pw-toggle" type="button" onclick="toggleField('new-pw')"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="confirm-pw">Confirm New Password</label>
+                <div class="pw-field-wrap">
+                  <input type="password" id="confirm-pw" placeholder="Re-enter new password"/>
+                  <button class="pw-toggle" type="button" onclick="toggleField('confirm-pw')"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="pw-msg" id="pw-msg"></div>
+            <button class="btn btn-primary" onclick="changePassword()" style="margin-top:.7rem"><i class="fa-solid fa-check"></i> Update Password</button>
+          </div>
+
+          <!-- Change Security Question Answer -->
+          <div class="settings-card">
+            <h4><i class="fa-solid fa-shield-halved"></i> Security Question</h4>
+            <p class="desc">This is shown when you click "Forgot Password" on the login page.</p>
+            <div class="form-group">
+              <label>Question (fixed)</label>
+              <input type="text" value="What is the name of the company founder & owner?" disabled style="opacity:.6"/>
+            </div>
+            <div class="form-group">
+              <label for="sec-answer-setting">Current Answer</label>
+              <input type="text" id="sec-answer-setting" placeholder="e.g. rahul gupta"/>
+            </div>
+            <div class="pw-msg" id="sec-msg"></div>
+            <button class="btn btn-primary" onclick="updateSecurityAnswer()" style="margin-top:.7rem"><i class="fa-solid fa-check"></i> Update Answer</button>
+          </div>
+
+          <!-- Danger Zone -->
+          <div class="settings-card" style="border-color:rgba(220,38,38,.3)">
+            <h4 style="color:#fca5a5"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i> Danger Zone</h4>
+            <p class="desc">Remove all admin-added products. Built-in products will be restored.</p>
+            <button class="btn btn-danger" onclick="resetAllData()"><i class="fa-solid fa-trash"></i> Reset All Admin Data</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal">
+    <h3><i class="fa-solid fa-triangle-exclamation"></i> Delete Product</h3>
+    <p>Are you sure you want to delete <strong id="delete-name"></strong>? This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" onclick="closeDeleteModal()">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i> Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESET CONFIRM MODAL -->
+<div class="modal-overlay" id="reset-modal">
+  <div class="modal">
+    <h3><i class="fa-solid fa-triangle-exclamation"></i> Reset All Data</h3>
+    <p>This will remove <strong>all admin-added products</strong> and restore only the original built-in products. Are you sure?</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('reset-modal').classList.remove('show')">Cancel</button>
+      <button class="btn btn-danger" onclick="doResetAll()"><i class="fa-solid fa-trash"></i> Reset Everything</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i> <span id="toast-text"></span></div>
+
+<script>
+// ══════════════════════════════════════════════
+// AUTH GUARD
+// ══════════════════════════════════════════════
+if(sessionStorage.getItem('stenmeds_admin')!=='1') window.location.href='index.html';
+function doLogout(){sessionStorage.removeItem('stenmeds_admin');window.location.href='index.html';}
+
+// ══════════════════════════════════════════════
+// PASSWORD MANAGEMENT
+// ══════════════════════════════════════════════
+const DEFAULT_PW  = 'Sten@dmin2024';
+const DEFAULT_SEC = 'rahul gupta';
+
+function getPassword(){ return localStorage.getItem('stenmeds_admin_pw') || DEFAULT_PW; }
+function setPassword(pw){ localStorage.setItem('stenmeds_admin_pw', pw); }
+function getSecAnswer(){ return localStorage.getItem('stenmeds_admin_sec') || DEFAULT_SEC; }
+function setSecAnswer(a){ localStorage.setItem('stenmeds_admin_sec', a); }
+
+// ══════════════════════════════════════════════
+// BUILT-IN PRODUCTS (from your website pages)
+// ══════════════════════════════════════════════
+var BUILTIN_PRODUCTS = [
+  // ── Respiratory & Pulmonology ──
+  {id:'builtin-resp-1', name:'Doxofer Dx Tab', category:'respiratory-pulmonology', composition:'Doxofylline & Ambroxol Hydrochloride Tablets', form:'Tablet', description:'Used for managing respiratory conditions like asthma and bronchitis.', image:'/assets/images/products/doxofer-dx.png', source:'builtin'},
+  {id:'builtin-resp-2', name:'Stencuf Junior Syrup', category:'respiratory-pulmonology', composition:'Levosalbutamol Sulphate, Ambroxol Hydrochloride & Guaiphenesin Syrup', form:'Syrup', description:'Pediatric cough formula for chest congestion and cough.', image:'/assets/images/products/stencuf-junior.png', source:'builtin'},
+  // ── Gastrointestinal & Digestive ──
+  {id:'builtin-gi-1', name:'Gasomed Quick Relief', category:'gastrointestinal-digestive', composition:'Aluminium Hydroxide, Magnesium Hydroxide & Simethicone', form:'Suspension', description:'Formulated for fast relief from acidity, heartburn, and abdominal gas.', image:'/assets/images/products/gasomed.png', source:'builtin'},
+  {id:'builtin-gi-2', name:'Stengut Suspension', category:'gastrointestinal-digestive', composition:'Sucralfate & Oxetacaine Suspension', form:'Suspension', description:'Directed toward gut health and digestive relief.', image:'/assets/images/products/stengut.png', source:'builtin'},
+  // ── Hepatology (Liver Care) ──
+  {id:'builtin-hep-1', name:'Hepato B6 Syrup', category:'hepatology-liver-care', composition:'Silymarin, L-Ornithine L-Aspartate & Pyridoxine Hydrochloride', form:'Syrup', description:'Liver care supplement with Vitamin B6 support.', image:'/assets/images/products/hepato-b6.png', source:'builtin'},
+  {id:'builtin-hep-2', name:'Stenliv-DS Syrup', category:'hepatology-liver-care', composition:'Silymarin, Tricholine Citrate & Zinc Sulphate', form:'Syrup', description:'Double-strength liver tonic for hepatoprotection.', image:'/assets/images/products/stenliv-ds.png', source:'builtin'},
+  // ── Bone Health & Minerals ──
+  {id:'builtin-bone-1', name:'Stencal Plus Tab', category:'bone-health-minerals', composition:'Calcium Carbonate, Vitamin D3, Zinc & Magnesium', form:'Tablet', description:'Calcium supplement for bone health and osteoporosis prevention.', image:'/assets/images/products/stencal-plus.png', source:'builtin'},
+  {id:'builtin-bone-2', name:'Osteosafe-D3 Sachet', category:'bone-health-minerals', composition:'Cholecalciferol 60000 IU', form:'Sachet', description:'High-dose Vitamin D3 sachet for bone density support.', image:'/assets/images/products/osteosafe-d3.png', source:'builtin'},
+  // ── Pediatric Care ──
+  {id:'builtin-ped-1', name:'Stenpara Junior Drops', category:'pediatric-care', composition:'Paracetamol 150mg/ml Oral Drops', form:'Drops', description:'Safe antipyretic drops for infants for fever and mild pain.', image:'/assets/images/products/stenpara-junior.png', source:'builtin'},
+  {id:'builtin-ped-2', name:'Stenbruf-P Syrup', category:'pediatric-care', composition:'Ibuprofen & Paracetamol Suspension', form:'Syrup', description:'Dual-action analgesic and antipyretic syrup for children.', image:'/assets/images/products/stenbruf-p.png', source:'builtin'},
+  // ── Critical Care / Injectables ──
+  {id:'builtin-crit-1', name:'Stenpan-40 IV', category:'critical-care-injectables', composition:'Pantoprazole Sodium 40mg Injection', form:'Injection', description:'Hospital-grade proton pump inhibitor for acute GI conditions.', image:'/assets/images/products/stenpan-40.png', source:'builtin'},
+  {id:'builtin-crit-2', name:'Ondex-4 Injection', category:'critical-care-injectables', composition:'Ondansetron 4mg/2ml Injection', form:'Injection', description:'Antiemetic injection for post-operative and chemotherapy-related nausea.', image:'/assets/images/products/ondex-4.png', source:'builtin'},
+  // ── Nutritional & Energy Supplements ──
+  {id:'builtin-nutr-1', name:'StenPro Protein Powder', category:'nutritional-energy-supplements', composition:'Whey Protein, DHA, Vitamins & Minerals', form:'Powder', description:'Complete protein supplement for immunity, stamina, and wellness.', image:'/assets/images/products/stenpro.png', source:'builtin'},
+  {id:'builtin-nutr-2', name:'EnergySten Sachet', category:'nutritional-energy-supplements', composition:'Electrolytes, Dextrose & Vitamin C', form:'Sachet', description:'Instant energy and hydration formula with essential electrolytes.', image:'/assets/images/products/energysten.png', source:'builtin'},
+  {id:'builtin-nutr-3', name:'Stenvita Gold Capsules', category:'nutritional-energy-supplements', composition:'Multivitamin, Multimineral, Ginseng & Ginkgo Biloba', form:'Capsule', description:'Premium daily multivitamin for energy and cognitive support.', image:'/assets/images/products/stenvita-gold.png', source:'builtin'},
+  {id:'builtin-nutr-4', name:'Iron-Sten XT Syrup', category:'nutritional-energy-supplements', composition:'Ferrous Ascorbate, Folic Acid & Zinc Sulphate', form:'Syrup', description:'Iron supplement syrup for anemia prevention and hemoglobin support.', image:'/assets/images/products/iron-sten.png', source:'builtin'},
+];
+
+// ══════════════════════════════════════════════
+// CATEGORY META
+// ══════════════════════════════════════════════
+var CATS = {
+  'respiratory-pulmonology':       {name:'Respiratory & Pulmonology',        badge:'badge-blue'},
+  'gastrointestinal-digestive':    {name:'Gastrointestinal & Digestive',     badge:'badge-teal'},
+  'hepatology-liver-care':         {name:'Hepatology (Liver Care)',          badge:'badge-amber'},
+  'bone-health-minerals':          {name:'Bone Health & Minerals',           badge:'badge-purple'},
+  'pediatric-care':                {name:'Pediatric Care / Pain & Fever',    badge:'badge-pink'},
+  'critical-care-injectables':     {name:'Critical Care / Injectables',      badge:'badge-red'},
+  'nutritional-energy-supplements':{name:'Nutritional & Energy Supplements', badge:'badge-green'},
+};
+
+// ══════════════════════════════════════════════
+// LOCAL STORAGE HELPERS
+// ══════════════════════════════════════════════
+function getAdminProducts(){ return JSON.parse(localStorage.getItem('stenmeds_products')||'[]'); }
+function saveAdminProducts(arr){ localStorage.setItem('stenmeds_products', JSON.stringify(arr)); }
+function getRemovedIds(){ return JSON.parse(localStorage.getItem('stenmeds_removed')||'[]'); }
+function saveRemovedIds(arr){ localStorage.setItem('stenmeds_removed', JSON.stringify(arr)); }
+
+// Get ALL products = built-in (not removed) + admin-added
+function getAllProducts(){
+  var removed = getRemovedIds();
+  var builtins = BUILTIN_PRODUCTS.filter(function(p){ return removed.indexOf(p.id)===-1; });
+  var admin = getAdminProducts().map(function(p){ p.source='admin'; return p; });
+  return builtins.concat(admin);
+}
+
+// ══════════════════════════════════════════════
+// VIEW SWITCHING
+// ══════════════════════════════════════════════
+var views = ['dashboard','add-product','manage-products','settings'];
+var viewIcons = {'dashboard':'fa-gauge-high','add-product':'fa-plus-circle','manage-products':'fa-boxes-stacked','settings':'fa-gear'};
+var viewLabels = {'dashboard':'Dashboard','add-product':'Add New Product','manage-products':'All Products','settings':'Settings'};
+
+function switchView(v){
+  views.forEach(function(vw){
+    document.getElementById('view-'+vw).style.display = vw===v?'':'none';
+  });
+  document.querySelectorAll('.sidebar-link[data-view]').forEach(function(l){
+    l.classList.toggle('active',l.dataset.view===v);
+  });
+  document.getElementById('topbar-title').innerHTML='<i class="fa-solid '+viewIcons[v]+'"></i> '+viewLabels[v];
+  if(v==='dashboard') refreshDashboard();
+  if(v==='manage-products') renderProductsTable();
+  if(v==='settings') loadSettings();
+  document.getElementById('sidebar').classList.remove('open');
+}
+document.querySelectorAll('.sidebar-link[data-view]').forEach(function(l){
+  l.addEventListener('click',function(){switchView(l.dataset.view);});
+});
+
+// ══════════════════════════════════════════════
+// IMAGE UPLOAD
+// ══════════════════════════════════════════════
+var uploadedImageData = null;
+
+function handleImageUpload(e){
+  var file = e.target.files[0];
+  if(!file) return;
+  if(file.size > 5*1024*1024){showToast('Image must be under 5MB','error');return;}
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    uploadedImageData = ev.target.result;
+    var prev = document.getElementById('upload-preview');
+    prev.src = uploadedImageData; prev.style.display = 'block';
+    document.getElementById('upload-icon').style.display = 'none';
+    document.getElementById('upload-text').innerHTML = '<strong>Image attached</strong> — click to change';
+    document.getElementById('upload-area').classList.add('has-image');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ══════════════════════════════════════════════
+// SAVE PRODUCT (ADD / EDIT)
+// ══════════════════════════════════════════════
+function saveProduct(){
+  var name = document.getElementById('prod-name').value.trim();
+  var cat  = document.getElementById('prod-category').value;
+  if(!name){showToast('Product name is required','error');return;}
+  if(!cat){showToast('Please select a category','error');return;}
+
+  var product = {
+    id: document.getElementById('edit-id').value || Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+    name: name,
+    category: cat,
+    composition: document.getElementById('prod-composition').value.trim(),
+    form: document.getElementById('prod-form').value,
+    packaging: document.getElementById('prod-packaging').value.trim(),
+    mrp: document.getElementById('prod-mrp').value,
+    description: document.getElementById('prod-desc').value.trim(),
+    image: uploadedImageData||null,
+    source: 'admin',
+    addedAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+
+  var all = getAdminProducts();
+  var editId = document.getElementById('edit-id').value;
+  if(editId){
+    // Editing: could be admin or a rebuilt builtin
+    var idx = all.findIndex(function(p){return p.id===editId;});
+    if(idx>=0){
+      product.addedAt=all[idx].addedAt;
+      if(!product.image) product.image=all[idx].image;
+      all[idx]=product;
+    } else {
+      // Was a built-in that was edited — add as new admin product with same id
+      product.addedAt = new Date().toISOString();
+      all.unshift(product);
+      // Remove the builtin version
+      var rem = getRemovedIds();
+      if(rem.indexOf(editId)===-1){ rem.push(editId); saveRemovedIds(rem); }
+    }
+    showToast('Product updated successfully!');
+  } else {
+    all.unshift(product);
+    showToast('Product added successfully!');
+  }
+  saveAdminProducts(all);
+  resetForm();
+  switchView('manage-products');
+}
+
+function resetForm(){
+  document.getElementById('product-form').reset();
+  document.getElementById('edit-id').value='';
+  uploadedImageData=null;
+  document.getElementById('upload-preview').style.display='none';
+  document.getElementById('upload-icon').style.display='';
+  document.getElementById('upload-text').innerHTML='<strong>Click to upload</strong> or drag & drop<br>PNG, JPG up to 5MB';
+  document.getElementById('upload-area').classList.remove('has-image');
+  document.getElementById('form-title').textContent='Add New Product';
+  document.getElementById('save-btn-text').textContent='Save Product';
+}
+
+// ══════════════════════════════════════════════
+// EDIT PRODUCT
+// ══════════════════════════════════════════════
+function editProduct(id){
+  var all = getAllProducts();
+  var p = all.find(function(x){return x.id===id;});
+  if(!p) return;
+  switchView('add-product');
+  document.getElementById('edit-id').value = p.id;
+  document.getElementById('prod-name').value = p.name;
+  document.getElementById('prod-category').value = p.category;
+  document.getElementById('prod-composition').value = p.composition||'';
+  document.getElementById('prod-form').value = p.form||'';
+  document.getElementById('prod-packaging').value = p.packaging||'';
+  document.getElementById('prod-mrp').value = p.mrp||'';
+  document.getElementById('prod-desc').value = p.description||'';
+  if(p.image){
+    uploadedImageData = p.image;
+    var prev = document.getElementById('upload-preview');
+    prev.src=p.image; prev.style.display='block';
+    document.getElementById('upload-icon').style.display='none';
+    document.getElementById('upload-text').innerHTML='<strong>Current image</strong> — click to change';
+    document.getElementById('upload-area').classList.add('has-image');
+  }
+  document.getElementById('form-title').textContent='Edit Product';
+  document.getElementById('save-btn-text').textContent='Update Product';
+}
+
+// ══════════════════════════════════════════════
+// DELETE PRODUCT
+// ══════════════════════════════════════════════
+var deleteTargetId = null;
+function deleteProduct(id){
+  var all = getAllProducts();
+  var p = all.find(function(x){return x.id===id;});
+  if(!p) return;
+  deleteTargetId = id;
+  document.getElementById('delete-name').textContent = p.name;
+  document.getElementById('delete-modal').classList.add('show');
+}
+function closeDeleteModal(){document.getElementById('delete-modal').classList.remove('show');deleteTargetId=null;}
+function confirmDelete(){
+  if(!deleteTargetId) return;
+  // Check if it's a builtin product
+  if(deleteTargetId.indexOf('builtin-')===0){
+    var rem = getRemovedIds();
+    if(rem.indexOf(deleteTargetId)===-1){ rem.push(deleteTargetId); saveRemovedIds(rem); }
+  } else {
+    // Admin-added: remove from array
+    var all = getAdminProducts();
+    all = all.filter(function(p){return p.id!==deleteTargetId;});
+    saveAdminProducts(all);
+  }
+  closeDeleteModal();
+  showToast('Product removed.');
+  renderProductsTable();
+  refreshDashboard();
+}
+
+// ══════════════════════════════════════════════
+// TABLE RENDERER
+// ══════════════════════════════════════════════
+function buildTable(products, showActions){
+  if(!products.length) return '<div class="empty-state"><i class="fa-solid fa-inbox"></i><p>No products found.</p></div>';
+  var html = '<table class="products-table"><thead><tr><th>Image</th><th>Product Name</th><th>Category</th><th>Form</th><th>Source</th>'+(showActions?'<th style="text-align:right">Actions</th>':'')+'</tr></thead><tbody>';
+  products.forEach(function(p){
+    var cat = CATS[p.category]||{name:p.category,badge:'badge-blue'};
+    var imgCell;
+    if(p.image && p.image.indexOf('data:')===0){
+      imgCell = '<img src="'+p.image+'" class="product-thumb" alt="'+p.name+'"/>';
+    } else if(p.image){
+      imgCell = '<img src="'+p.image+'" class="product-thumb" alt="'+p.name+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"/><div class="product-thumb-placeholder" style="display:none"><i class="fa-solid fa-image"></i></div>';
+    } else {
+      imgCell = '<div class="product-thumb-placeholder"><i class="fa-solid fa-image"></i></div>';
+    }
+    var srcBadge = p.source==='builtin'
+      ? '<span class="badge badge-default badge-source">Built-in</span>'
+      : '<span class="badge badge-green badge-source">Admin</span>';
+    html += '<tr>'
+      + '<td>'+imgCell+'</td>'
+      + '<td><strong>'+p.name+'</strong>'+(p.composition?'<br><span style="font-size:.75rem;color:var(--text-muted)">'+p.composition+'</span>':'')+'</td>'
+      + '<td><span class="badge '+cat.badge+'">'+cat.name+'</span></td>'
+      + '<td>'+(p.form||'--')+'</td>'
+      + '<td>'+srcBadge+'</td>';
+    if(showActions){
+      html += '<td style="text-align:right;white-space:nowrap">'
+        + '<button class="btn btn-ghost btn-sm" onclick="editProduct(\''+p.id+'\')"><i class="fa-solid fa-pen-to-square"></i></button> '
+        + '<button class="btn btn-danger btn-sm" onclick="deleteProduct(\''+p.id+'\')"><i class="fa-solid fa-trash"></i></button>'
+        + '</td>';
+    }
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  return html;
+}
+
+function renderProductsTable(){
+  var all = getAllProducts();
+  var filterCat = document.getElementById('filter-cat').value;
+  var filterSrc = document.getElementById('filter-source').value;
+  var filtered = all;
+  if(filterCat) filtered = filtered.filter(function(p){return p.category===filterCat;});
+  if(filterSrc) filtered = filtered.filter(function(p){return p.source===filterSrc;});
+  document.getElementById('all-table-wrap').innerHTML = buildTable(filtered, true);
+  document.getElementById('products-count').textContent = '('+filtered.length+' of '+all.length+')';
+}
+
+// ══════════════════════════════════════════════
+// DASHBOARD STATS
+// ══════════════════════════════════════════════
+function refreshDashboard(){
+  var all = getAllProducts();
+  document.getElementById('stat-total').textContent = all.length;
+  document.getElementById('stat-images').textContent = all.filter(function(p){return !!p.image;}).length;
+  var weekAgo = Date.now() - 7*24*60*60*1000;
+  document.getElementById('stat-recent').textContent = all.filter(function(p){return p.addedAt && new Date(p.addedAt).getTime()>weekAgo;}).length;
+  var recent = all.slice(0,5);
+  document.getElementById('recent-table-wrap').innerHTML = buildTable(recent, false);
+}
+
+// ══════════════════════════════════════════════
+// SETTINGS — CHANGE PASSWORD
+// ══════════════════════════════════════════════
+function loadSettings(){
+  document.getElementById('sec-answer-setting').value = getSecAnswer();
+  document.getElementById('current-pw').value = '';
+  document.getElementById('new-pw').value = '';
+  document.getElementById('confirm-pw').value = '';
+  hidePwMsg();
+}
+
+function changePassword(){
+  var cur  = document.getElementById('current-pw').value;
+  var nw   = document.getElementById('new-pw').value;
+  var conf = document.getElementById('confirm-pw').value;
+  hidePwMsg();
+
+  if(!cur){showPwMsg('Please enter your current password.','error');return;}
+  if(cur !== getPassword()){showPwMsg('Current password is incorrect.','error');return;}
+  if(nw.length < 6){showPwMsg('New password must be at least 6 characters.','error');return;}
+  if(nw !== conf){showPwMsg('New passwords do not match.','error');return;}
+  if(nw === cur){showPwMsg('New password must be different from current.','error');return;}
+
+  setPassword(nw);
+  showPwMsg('Password changed successfully! Use the new password next time you log in.','success');
+  showToast('Password updated!');
+  document.getElementById('current-pw').value='';
+  document.getElementById('new-pw').value='';
+  document.getElementById('confirm-pw').value='';
+}
+
+function updateSecurityAnswer(){
+  var ans = document.getElementById('sec-answer-setting').value.trim().toLowerCase();
+  if(!ans){showSecMsg('Please enter an answer.','error');return;}
+  setSecAnswer(ans);
+  showSecMsg('Security answer updated!','success');
+  showToast('Security answer saved!');
+}
+
+function showPwMsg(msg,type){
+  var el=document.getElementById('pw-msg');
+  el.textContent=msg; el.className='pw-msg show '+type;
+}
+function hidePwMsg(){document.getElementById('pw-msg').className='pw-msg';}
+function showSecMsg(msg,type){
+  var el=document.getElementById('sec-msg');
+  el.textContent=msg; el.className='pw-msg show '+type;
+  setTimeout(function(){el.className='pw-msg';},3000);
+}
+
+function toggleField(id){
+  var inp=document.getElementById(id);
+  var icon=inp.parentElement.querySelector('.pw-toggle i');
+  if(inp.type==='password'){inp.type='text';icon.className='fa-solid fa-eye-slash';}
+  else{inp.type='password';icon.className='fa-solid fa-eye';}
+}
+
+// ══════════════════════════════════════════════
+// RESET ALL DATA
+// ══════════════════════════════════════════════
+function resetAllData(){document.getElementById('reset-modal').classList.add('show');}
+function doResetAll(){
+  localStorage.removeItem('stenmeds_products');
+  localStorage.removeItem('stenmeds_removed');
+  document.getElementById('reset-modal').classList.remove('show');
+  showToast('All admin data has been reset.');
+  refreshDashboard();
+  renderProductsTable();
+}
+
+// ══════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════
+function showToast(msg,type){
+  var t=document.getElementById('toast');
+  var ic=t.querySelector('i');
+  t.classList.remove('error');
+  if(type==='error'){t.classList.add('error');ic.className='fa-solid fa-circle-exclamation';}
+  else{ic.className='fa-solid fa-circle-check';}
+  document.getElementById('toast-text').textContent=msg;
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+refreshDashboard();
+</script>
+</body>
+</html>

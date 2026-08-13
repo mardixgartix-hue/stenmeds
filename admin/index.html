@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Admin Login — STENMEDS BIOTECH</title>
+  <meta name="robots" content="noindex,nofollow"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --primary:#1a56db;
+      --primary-dark:#1143b0;
+      --accent:#0ea5e9;
+      --success:#16a34a;
+      --danger:#dc2626;
+      --bg:#0f172a;
+      --surface:#1e293b;
+      --surface2:#293548;
+      --border:#334155;
+      --text:#f1f5f9;
+      --text-muted:#94a3b8;
+      --radius:14px;
+    }
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:1.5rem;
+      background-image:radial-gradient(ellipse at 20% 50%,rgba(26,86,219,.15) 0%,transparent 60%),
+                        radial-gradient(ellipse at 80% 20%,rgba(14,165,233,.1) 0%,transparent 60%);
+    }
+    .login-wrapper{
+      width:100%;
+      max-width:420px;
+    }
+    .brand{
+      text-align:center;
+      margin-bottom:2rem;
+    }
+    .brand img{
+      height:52px;
+      object-fit:contain;
+      filter:brightness(1.1);
+      background:#fff;
+      padding:6px 14px;
+      border-radius:10px;
+    }
+    .brand-sub{
+      margin-top:.6rem;
+      font-size:.75rem;
+      color:var(--text-muted);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:2.2rem 2rem;
+      box-shadow:0 25px 60px rgba(0,0,0,.5);
+    }
+    .card-title{
+      font-size:1.25rem;
+      font-weight:700;
+      margin-bottom:.35rem;
+      display:flex;
+      align-items:center;
+      gap:.6rem;
+    }
+    .card-title i{font-size:1.1rem;color:var(--accent)}
+    .card-sub{font-size:.85rem;color:var(--text-muted);margin-bottom:1.8rem}
+    .form-group{margin-bottom:1.1rem}
+    label{display:block;font-size:.8rem;font-weight:600;color:var(--text-muted);margin-bottom:.4rem;letter-spacing:.03em}
+    .input-wrap{position:relative}
+    .input-wrap i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:.85rem}
+    input[type=password],input[type=text]{
+      width:100%;
+      background:var(--surface2);
+      border:1.5px solid var(--border);
+      border-radius:9px;
+      color:var(--text);
+      font-size:.9rem;
+      font-family:inherit;
+      padding:.72rem 1rem .72rem 2.6rem;
+      outline:none;
+      transition:border-color .2s,box-shadow .2s;
+    }
+    input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.2)}
+    .toggle-pw{
+      position:absolute;right:12px;top:50%;transform:translateY(-50%);
+      background:none;border:none;color:var(--text-muted);cursor:pointer;
+      font-size:.9rem;padding:4px;
+    }
+    .toggle-pw:hover{color:var(--text)}
+    .btn{
+      width:100%;padding:.8rem;border:none;border-radius:9px;
+      font-family:inherit;font-size:.95rem;font-weight:600;cursor:pointer;
+      transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem;
+    }
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(26,86,219,.4)}
+    .btn-primary:active{transform:translateY(0)}
+    .btn-ghost{background:var(--surface2);color:var(--text-muted);border:1px solid var(--border);margin-top:.7rem}
+    .btn-ghost:hover{color:var(--text);border-color:var(--accent)}
+    .error-msg{
+      background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.3);
+      border-radius:8px;padding:.6rem .9rem;font-size:.82rem;color:#fca5a5;
+      margin-bottom:1rem;display:none;align-items:center;gap:.5rem;
+    }
+    .error-msg.show{display:flex}
+    .forgot-link{
+      display:block;text-align:right;font-size:.78rem;color:var(--accent);
+      text-decoration:none;margin-top:.4rem;cursor:pointer;
+    }
+    .forgot-link:hover{text-decoration:underline}
+    .divider{
+      display:flex;align-items:center;gap:.7rem;margin:1.4rem 0;
+      color:var(--text-muted);font-size:.75rem;
+    }
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+    /* Security question panel */
+    #forgot-panel{display:none}
+    #forgot-panel.show{display:block}
+    .panel-title{
+      font-size:.9rem;font-weight:600;color:var(--accent);
+      margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;
+    }
+    .success-msg{
+      background:rgba(22,163,74,.12);border:1px solid rgba(22,163,74,.3);
+      border-radius:8px;padding:.6rem .9rem;font-size:.82rem;color:#86efac;
+      display:none;align-items:center;gap:.5rem;
+    }
+    .success-msg.show{display:flex}
+    .back-link{font-size:.8rem;color:var(--text-muted);cursor:pointer;display:inline-flex;align-items:center;gap:.3rem;margin-top:.7rem}
+    .back-link:hover{color:var(--accent)}
+    footer-note{display:block;text-align:center;margin-top:1.5rem;font-size:.72rem;color:var(--text-muted)}
+  </style>
+</head>
+<body>
+<div class="login-wrapper">
+  <div class="brand">
+    <img src="/assets/images/logo.png" alt="STENMEDS BIOTECH"/>
+    <div class="brand-sub">Administrator Portal</div>
+  </div>
+
+  <div class="card">
+    <!-- LOGIN PANEL -->
+    <div id="login-panel">
+      <div class="card-title"><i class="fa-solid fa-lock"></i> Admin Login</div>
+      <div class="card-sub">Restricted access. Enter your admin password to continue.</div>
+
+      <div class="error-msg" id="login-error">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span id="error-text">Incorrect password. Please try again.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Admin Password</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-key"></i>
+          <input type="password" id="password" placeholder="Enter admin password" autocomplete="current-password"/>
+          <button class="toggle-pw" type="button" onclick="togglePw()" id="pw-toggle" aria-label="Toggle password visibility">
+            <i class="fa-solid fa-eye" id="pw-eye"></i>
+          </button>
+        </div>
+        <span class="forgot-link" onclick="showForgot()">Forgot password?</span>
+      </div>
+
+      <button class="btn btn-primary" onclick="doLogin()" id="login-btn">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
+      </button>
+    </div>
+
+    <!-- FORGOT PASSWORD PANEL -->
+    <div id="forgot-panel">
+      <div class="panel-title"><i class="fa-solid fa-circle-question"></i> Security Question</div>
+
+      <div class="success-msg" id="forgot-success">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="hint-text"></span>
+      </div>
+
+      <div class="error-msg" id="forgot-error">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        Incorrect answer. Please try again.
+      </div>
+
+      <div class="form-group">
+        <label>Question</label>
+        <p style="font-size:.88rem;color:var(--text);background:var(--surface2);padding:.65rem 1rem;border-radius:8px;border:1.5px solid var(--border)">
+          What is the name of the company founder &amp; owner?
+        </p>
+      </div>
+      <div class="form-group">
+        <label for="sec-answer">Your Answer</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-user"></i>
+          <input type="text" id="sec-answer" placeholder="Enter answer…"/>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="checkSecurity()">
+        <i class="fa-solid fa-unlock"></i> Reveal Hint
+      </button>
+      <span class="back-link" onclick="showLogin()"><i class="fa-solid fa-arrow-left"></i> Back to login</span>
+    </div>
+  </div>
+
+  <footer-note>© 2026 STENMEDS BIOTECH — Admin Panel v1.0</footer-note>
+</div>
+
+<script>
+  // ── Credentials (base64 encoded for light obfuscation) ──
+  const _p  = atob('U3RlbkBkbWluMjAyNA==');   // StEn@dmin2024
+  const _sa = atob('cmFodWwgZ3VwdGE=');         // rahul gupta
+  const _sh = 'Your password is: Sten@dmin2024'; // hint shown after correct answer
+
+  function doLogin(){
+    const val = document.getElementById('password').value;
+    const btn = document.getElementById('login-btn');
+    if(!val.trim()){showError('login-error','Please enter a password.');return;}
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Checking…';
+    btn.disabled = true;
+    setTimeout(()=>{
+      if(val === _p){
+        sessionStorage.setItem('stenmeds_admin','1');
+        window.location.href='dashboard.html';
+      } else {
+        showError('login-error','Incorrect password. Try again or use "Forgot password?"');
+        btn.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket"></i> Login';
+        btn.disabled = false;
+      }
+    },600);
+  }
+
+  function checkSecurity(){
+    const ans = document.getElementById('sec-answer').value.trim().toLowerCase();
+    document.getElementById('forgot-error').classList.remove('show');
+    document.getElementById('forgot-success').classList.remove('show');
+    if(ans === _sa){
+      document.getElementById('hint-text').textContent = _sh;
+      document.getElementById('forgot-success').classList.add('show');
+    } else {
+      document.getElementById('forgot-error').classList.add('show');
+    }
+  }
+
+  function showError(id,msg){
+    const el=document.getElementById(id);
+    if(msg) el.querySelector('span').textContent=msg;
+    el.classList.add('show');
+  }
+
+  function showForgot(){
+    document.getElementById('login-panel').style.display='none';
+    document.getElementById('forgot-panel').classList.add('show');
+    document.getElementById('login-error').classList.remove('show');
+  }
+  function showLogin(){
+    document.getElementById('login-panel').style.display='';
+    document.getElementById('forgot-panel').classList.remove('show');
+    document.getElementById('forgot-error').classList.remove('show');
+    document.getElementById('forgot-success').classList.remove('show');
+    document.getElementById('sec-answer').value='';
+  }
+
+  function togglePw(){
+    const inp=document.getElementById('password');
+    const eye=document.getElementById('pw-eye');
+    if(inp.type==='password'){inp.type='text';eye.className='fa-solid fa-eye-slash';}
+    else{inp.type='password';eye.className='fa-solid fa-eye';}
+  }
+
+  // Allow Enter key
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){
+      if(document.getElementById('forgot-panel').classList.contains('show'))checkSecurity();
+      else doLogin();
+    }
+  });
+
+  // Redirect if already logged in
+  if(sessionStorage.getItem('stenmeds_admin')==='1') window.location.href='dashboard.html';
+</script>
+</body>
+</html>
