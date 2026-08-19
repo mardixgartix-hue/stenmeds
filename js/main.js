@@ -427,7 +427,7 @@ function initContactForm() {
     const message = getField('message').value.trim();
 
     // Build WhatsApp message
-    const waNumber = '917417350021'; // STENMEDS BIOTECH business number
+    const waNumber = '917417350021'; // STENMED BIOTECH business number
     const waText = `*New Enquiry from Website*%0A` +
       `━━━━━━━━━━━━━━━━━━━━%0A` +
       `*Name:* ${encodeURIComponent(name)}%0A` +

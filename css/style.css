@@ -1,5 +1,5 @@
 /* =========================================================
-   STENMEDS BIOTECH — style.css
+   STENMED BIOTECH — style.css
    Single shared stylesheet — edit CSS variables at the top
    to retheme the entire site.
    ========================================================= */
@@ -424,9 +424,9 @@ h1,h2,h3,h4,h5,h6 {
 /* Dropdown */
 .dropdown {
   position: absolute;
-  top: calc(100% + 8px);
+  top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(10px);
+  transform: translateX(-50%);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -435,14 +435,13 @@ h1,h2,h3,h4,h5,h6 {
   padding: var(--spacing-sm) 0;
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+  transition: opacity var(--transition-fast), visibility var(--transition-fast);
   pointer-events: none;
 }
 .nav-item:hover .dropdown,
 .nav-item:focus-within .dropdown {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
   pointer-events: all;
 }
 
@@ -1450,6 +1449,49 @@ h1,h2,h3,h4,h5,h6 {
 }
 .contact-info-value a:hover { color: var(--color-secondary); }
 
+.btn-whatsapp {
+  background: var(--color-accent);
+  color: #fff;
+  margin-top: var(--spacing-md);
+  box-shadow: 0 4px 14px rgba(245,158,11,.35);
+}
+.btn-whatsapp:hover {
+  background: var(--color-accent-dark);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.contact-action-section { padding-top: 0; }
+.contact-action-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2xl);
+  padding: var(--spacing-2xl);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+.contact-action-panel .section-title { margin-bottom: var(--spacing-sm); }
+.contact-action-panel .section-desc { margin-bottom: 0; text-align: left; }
+.contact-enquiry-form {
+  flex: 1 1 680px;
+  min-width: 0;
+  padding: var(--spacing-xl);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+.contact-enquiry-form .form-row { gap: var(--spacing-md); }
+.contact-enquiry-form .form-group { margin-bottom: var(--spacing-sm); }
+.contact-enquiry-form .form-textarea { min-height: 88px; }
+.form-note {
+  margin: var(--spacing-sm) 0 0;
+  color: var(--color-text-light);
+  font-size: var(--font-size-xs);
+  text-align: center;
+}
+
 /* Contact form */
 .contact-form-wrap {
   display: grid;
@@ -2100,6 +2142,9 @@ h1,h2,h3,h4,h5,h6 {
   .category-sidebar { position: static; }
 
   .contact-info-grid { grid-template-columns: 1fr; }
+  .contact-action-panel { flex-direction: column; align-items: stretch; padding: var(--spacing-lg); }
+  .contact-enquiry-form { width: 100%; flex: none; padding: var(--spacing-md); }
+  .contact-action-panel .btn { width: 100%; justify-content: center; }
   .form-row { grid-template-columns: 1fr; }
 
   .product-detail-layout { grid-template-columns: 1fr; }
