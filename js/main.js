@@ -414,24 +414,44 @@ function initContactForm() {
     });
   });
 
-  form.addEventListener('submit', async e => {
+  form.addEventListener('submit', e => {
     e.preventDefault();
     const allValid = Object.keys(rules).map(validateField).every(Boolean);
     if (!allValid) return;
 
-    // Simulated async submit
+    // Gather form data
+    const name    = getField('name').value.trim();
+    const email   = getField('email').value.trim();
+    const phone   = getField('phone') ? getField('phone').value.trim() : '';
+    const subject = getField('subject').value.trim();
+    const message = getField('message').value.trim();
+
+    // Build WhatsApp message
+    const waNumber = '917417350021'; // STENMEDS BIOTECH business number
+    const waText = `*New Enquiry from Website*%0A` +
+      `━━━━━━━━━━━━━━━━━━━━%0A` +
+      `*Name:* ${encodeURIComponent(name)}%0A` +
+      `*Email:* ${encodeURIComponent(email)}%0A` +
+      (phone ? `*Phone:* ${encodeURIComponent(phone)}%0A` : '') +
+      `*Subject:* ${encodeURIComponent(subject)}%0A` +
+      `━━━━━━━━━━━━━━━━━━━━%0A` +
+      `*Message:*%0A${encodeURIComponent(message)}`;
+
+    const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
+
+    // Show loading briefly then open WhatsApp
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
 
-    await new Promise(r => setTimeout(r, 1800)); // Simulate network delay
-
-    submitBtn.classList.remove('loading');
-    submitBtn.disabled = false;
-    form.reset();
-    successMsg && successMsg.classList.add('visible');
-    showToast('Message sent! We\'ll get back to you soon. ✓', 'success');
-
-    setTimeout(() => successMsg && successMsg.classList.remove('visible'), 6000);
+    setTimeout(() => {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+      window.open(waUrl, '_blank');
+      form.reset();
+      successMsg && successMsg.classList.add('visible');
+      showToast('Redirecting to WhatsApp… ✓', 'success');
+      setTimeout(() => successMsg && successMsg.classList.remove('visible'), 6000);
+    }, 600);
   });
 }
 

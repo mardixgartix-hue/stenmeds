@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Physician — STENMEDS BIOTECH</title>
+  <meta name="description" content="Browse STENMEDS BIOTECH's range of Pediatric Care / Pain & Fever Relief including Mefinik-PDS Suspension." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .top-bar a i, .footer-links a i { font-size: 13px; }
+    .nav-link i.chevron { font-size: 11px; transition: transform var(--transition-fast, .2s); }
+    .nav-item:hover .nav-link i.chevron { transform: rotate(180deg); }
+    .social-icons a i { font-size: 15px; }
+    .footer-contact-item i { font-size: 14px; margin-top:3px; flex-shrink:0; color: var(--color-secondary); }
+    .logo-img { height: 48px; width: auto; object-fit: contain; }
+    .why-icon i { font-size: 32px; }
+    .back-to-top i { font-size: 16px; }
+    .filter-search-wrap i { font-size: 15px; color: var(--color-text-light); }
+    .contact-info-icon i { font-size: 28px; }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar" role="banner">
+  <div class="container">
+    <div class="top-bar-left">
+      <a href="tel:+918047828756" aria-label="Call us"><i class="fa-solid fa-phone" aria-hidden="true"></i>+91 80478 28756</a>
+      <a href="mailto:info@stenmedsbiotech.com" aria-label="Email us"><i class="fa-solid fa-envelope" aria-hidden="true"></i>info@stenmedsbiotech.com</a>
+    </div>
+    <div class="social-icons">
+      <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+      <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header" id="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/index.html" class="site-logo" aria-label="STENMEDS BIOTECH Home">
+        <img src="/assets/images/logo.png" alt="STENMEDS BIOTECH Logo" class="logo-img">
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <ul class="nav-list" role="list">
+          <li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="/about.html" class="nav-link">About</a></li>
+          <li class="nav-item">
+            <a href="/products.html" class="nav-link active" aria-haspopup="true">Our Products<i class="fa-solid fa-chevron-down chevron" aria-hidden="true"></i></a>
+            <ul class="dropdown" role="list">
+              <li><a href="/products/pediatrics.html" class="dropdown-link"><i class="fa-solid fa-baby fa-fw" aria-hidden="true"></i> Pediatrics</a></li>
+              <li><a href="/products/gynecologist.html" class="dropdown-link"><i class="fa-solid fa-person-pregnant fa-fw" aria-hidden="true"></i> Gynecologist</a></li>
+              <li><a href="/products/gastro.html" class="dropdown-link"><i class="fa-solid fa-pills fa-fw" aria-hidden="true"></i> Gastro</a></li>
+              <li><a href="/products/physician.html" class="dropdown-link"><i class="fa-solid fa-user-doctor fa-fw" aria-hidden="true"></i> Physician</a></li>
+              <li class="dropdown-divider"></li>
+              <li><a href="/products.html" class="dropdown-link dropdown-all"><i class="fa-solid fa-arrow-right fa-fw" aria-hidden="true"></i> All Products</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li>
+          <li class="nav-item"><a href="/contact.html" class="nav-link nav-cta">Get a Quote</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span class="hamburger-line" aria-hidden="true"></span><span class="hamburger-line" aria-hidden="true"></span><span class="hamburger-line" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav-overlay" id="mobile-overlay" aria-hidden="true"></div>
+<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" aria-hidden="true">
+  <div class="mobile-nav-header">
+    <a href="/index.html" class="site-logo" style="gap:.5rem">
+      <img src="/assets/images/logo.png" alt="STENMEDS BIOTECH Logo" class="logo-img" style="height:36px;">
+    </a>
+    <button class="mobile-close-btn" id="mobile-close" aria-label="Close navigation menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+  </div>
+  <ul class="mobile-nav-list" role="list">
+    <li><a href="/index.html" class="mobile-nav-link">Home</a></li>
+    <li><a href="/about.html" class="mobile-nav-link">About</a></li>
+    <li>
+      <button class="mobile-nav-link" data-toggle="mobile-products-dropdown" aria-expanded="false" style="width:100%;background:none;border:none;text-align:left">Our Products <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+      <ul class="mobile-dropdown" id="mobile-products-dropdown">
+        <li><a href="/products/pediatrics.html" class="mobile-dropdown-link">Pediatrics</a></li>
+        <li><a href="/products/gynecologist.html" class="mobile-dropdown-link">Gynecologist</a></li>
+        <li><a href="/products/gastro.html" class="mobile-dropdown-link">Gastro</a></li>
+        <li><a href="/products/physician.html" class="mobile-dropdown-link">Physician</a></li>
+        <li><a href="/products.html" class="mobile-dropdown-link all-link"><i class="fa-solid fa-arrow-right fa-fw" aria-hidden="true"></i> All Products</a></li>
+      </ul>
+    </li>
+    <li><a href="/contact.html" class="mobile-nav-link">Contact</a></li>
+  </ul>
+  <div class="mobile-nav-cta"><a href="/contact.html" class="btn btn-accent" style="width:100%;justify-content:center">Get a Quote</a></div>
+</nav>
+
+<!-- PAGE BANNER -->
+<section class="page-banner" aria-label="Page header">
+  <div class="container">
+    <h1 class="page-banner-title"><i class="fa-solid fa-user-doctor fa-fw" aria-hidden="true" style="color:#0284c7"></i> Physician</h1>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/index.html">Home</a><span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <a href="/products.html">Our Products</a><span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page">Physician</span>
+    </nav>
+  </div>
+</section>
+
+<!-- MAIN CONTENT: SIDEBAR + PRODUCTS -->
+<section class="section-pad bg-surface">
+  <div class="container">
+    <div class="category-layout">
+      <!-- Sidebar -->
+      <aside class="category-sidebar" aria-label="Product categories">
+  <div class="sidebar-heading">All Categories</div>
+  <nav aria-label="Product category navigation">
+    <a href="pediatrics.html" class="sidebar-link"><i class="fa-solid fa-baby fa-fw" aria-hidden="true" style="color:#ec4899"></i> Pediatrics</a>
+    <a href="gynecologist.html" class="sidebar-link"><i class="fa-solid fa-person-pregnant fa-fw" aria-hidden="true" style="color:#a855f7"></i> Gynecologist</a>
+    <a href="gastro.html" class="sidebar-link"><i class="fa-solid fa-pills fa-fw" aria-hidden="true" style="color:#0d9488"></i> Gastro</a>
+    <a href="physician.html" class="sidebar-link active"><i class="fa-solid fa-user-doctor fa-fw" aria-hidden="true" style="color:#0284c7"></i> Physician</a>
+    <div style="border-top:1px solid var(--color-border);margin:var(--spacing-sm) 0"></div>
+    <a href="/products.html" class="sidebar-link" style="color:var(--color-primary);font-weight:600"><i class="fa-solid fa-arrow-right fa-fw" aria-hidden="true"></i> All Products</a>
+  </nav>
+</aside>
+
+      <!-- Products main -->
+      <div>
+        <div class="products-filter-bar">
+          <div class="filter-search-wrap">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <input type="search" id="category-search" class="filter-search" placeholder="Search physician products…" aria-label="Search products in this category" />
+          </div>
+          <span class="products-count" id="products-count" aria-live="polite">7 products</span>
+        </div>
+
+        <div class="products-grid" id="products-grid" aria-label="Physician products">
+
+          <article class="product-card" data-name="Hepto B6">
+            <div class="product-img-wrap" style="background:#fff;border-bottom:1px solid var(--color-border);">
+              <img src="/assets/images/products/hepto-b6.jpg" alt="Hepto B6" style="width:100%;height:220px;object-fit:contain;padding:12px;background:#fff;">
+            </div>
+            <div class="product-card-body">
+              <span class="badge badge-rx product-card-form">Rx — Physician</span>
+              <h2 class="product-card-name">Hepto B6</h2>
+              <div class="product-composition">
+                <i class="fa-solid fa-flask-vial fa-fw" aria-hidden="true"></i>
+                <span><strong>Composition:</strong> Silymarin, L-Ornithine L-Aspartate, Folic Acid, Co-Enzyme Q10 Syrup</span>
+              </div>
+              <div class="product-uses">
+                <i class="fa-solid fa-kit-medical fa-fw" aria-hidden="true"></i>
+                <span><strong>Indication:</strong> General liver support</span>
+              </div>
+              <div class="product-card-footer">
+                <a href="/contact.html" class="btn btn-primary btn-sm product-inquire-btn" data-product="Hepto B6">
+                  <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Inquire Now
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="product-card" data-name="DOXOFER-DX">
+            <div class="product-img-wrap" style="background:#fff;border-bottom:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;height:220px;">
+              <i class="fa-solid fa-pills" style="font-size:48px;color:#cbd5e1"></i>
+            </div>
+            <div class="product-card-body">
+              <span class="badge badge-rx product-card-form">Rx — Physician</span>
+              <h2 class="product-card-name">DOXOFER-DX</h2>
+              <div class="product-composition">
+                <i class="fa-solid fa-flask-vial fa-fw" aria-hidden="true"></i>
+                <span><strong>Composition:</strong> Doxofylline Tablets</span>
+              </div>
+              <div class="product-uses">
+                <i class="fa-solid fa-kit-medical fa-fw" aria-hidden="true"></i>
+                <span><strong>Indication:</strong> Asthma and bronchitis</span>
+              </div>
+              <div class="product-card-footer">
+                <a href="/contact.html" class="btn btn-primary btn-sm product-inquire-btn" data-product="DOXOFER-DX">
+                  <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Inquire Now
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="product-card" data-name="Sten DSR">
+            <div class="product-img-wrap" style="background:#fff;border-bottom:1px solid var(--color-border);">
+              <img src="/assets/images/products/sten-dsr.jpg" alt="Sten DSR" style="width:100%;height:220px;object-fit:contain;padding:12px;background:#fff;">
+            </div>
+            <div class="product-card-body">
+              <span class="badge badge-rx product-card-form">Rx — Physician</span>
+              <h2 class="product-card-name">Sten DSR</h2>
+              <div class="product-composition">
+                <i class="fa-solid fa-flask-vial fa-fw" aria-hidden="true"></i>
+                <span><strong>Composition:</strong> Pantoprazole Sodium & Domperidone Prolonged-release Capsules IP</span>
+              </div>
+              <div class="product-uses">
+                <i class="fa-solid fa-kit-medical fa-fw" aria-hidden="true"></i>
+                <span><strong>Indication:</strong> Acidity and indigestion</span>
+              </div>
+              <div class="product-card-footer">
+                <a href="/contact.html" class="btn btn-primary btn-sm product-inquire-btn" data-product="Sten DSR">
+                  <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Inquire Now
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="product-card" data-name="Gasomed Syp">
+            <div class="product-img-wrap" style="background:#fff;border-bottom:1px solid var(--color-border);">
+              <img src="/assets/images/products/gasomed.jpg" alt="Gasomed Syp" style="width:100%;height:220px;object-fit:contain;padding:12px;background:#fff;">
+            </div>
+            <div class="product-card-body">
+              <span class="badge badge-rx product-card-form">Rx — Physician</span>
+              <h2 class="product-card-name">Gasomed Syp</h2>
+              <div class="product-composition">
+                <i class="fa-solid fa-flask-vial fa-fw" aria-hidden="true"></i>
+                <span><strong>Composition:</strong> Antacid suspension</span>
+              </div>
+              <div class="product-uses">
+                <i class="fa-solid fa-kit-medical fa-fw" aria-hidden="true"></i>
+                <span><strong>Indication:</strong> Antacid & anti-flatulent</span>
+              </div>
+              <div class="product-card-footer">
+                <a href="/contact.html" class="btn btn-primary btn-sm product-inquire-btn" data-product="Gasomed Syp">
+                  <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Inquire Now
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="product-card" data-name="Stenzi Pro">
+            <div class="product-img-wrap" style="background:#fff;border-bottom:1px solid var(--color-border);">
+              <img src="/assets/images/products/stenzi-pro.jpg" alt="Stenzi Pro" style="width:100%;height:220px;object-fit:contain;padding:12px;background:#fff;">
+            </div>
+            <div class="product-card-body">
+              <span class="badge badge-rx product-card-form">Rx — Physician</span>
+              <h2 class="product-card-name">Stenzi Pro</h2>
+              <div class="product-composition">
+                <i class="fa-solid fa-flask-vial fa-fw" aria-hidden="true"></i>
+                <span><strong>Composition:</strong> Dextrose, Sucrose, Vitamin C, D3, Zinc & Electrolyte Powder</span>
+              </div>
+              <div class="product-uses">
+                <i class="fa-solid fa-kit-medical fa-fw" aria-hidden="true"></i>
+                <span><strong>Indication:</strong> Instant energy & electrolytes</span>
+              </div>
+              <div class="product-card-footer">
+                <a href="/contact.html" class="btn btn-primary btn-sm product-inquire-btn" data-product="Stenzi Pro">
+                  <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Inquire Now
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="product-card" data-name="Calsical LC">
+            <div class="product-img-wrap" style="background:#fff;border-bottom:1px solid var(--color-border);">
+              <img src="/assets/images/products/calsical-lc.jpg" alt="Calsical LC" style="width:100%;height:220px;object-fit:contain;padding:12px;background:#fff;">
+            </div>
+            <div class="product-card-body">
+              <span class="badge badge-rx product-card-form">Rx — Physician</span>
+              <h2 class="product-card-name">Calsical LC</h2>
+              <div class="product-composition">
+                <i class="fa-solid fa-flask-vial fa-fw" aria-hidden="true"></i>
+                <span><strong>Composition:</strong> Calcium Citrate, L-Carnitine, Vitamin E, Zinc Sulphate & Folic Acid Tablets</span>
+              </div>
+              <div class="product-uses">
+                <i class="fa-solid fa-kit-medical fa-fw" aria-hidden="true"></i>
+                <span><strong>Indication:</strong> Calcium supplementation</span>
+              </div>
+              <div class="product-card-footer">
+                <a href="/contact.html" class="btn btn-primary btn-sm product-inquire-btn" data-product="Calsical LC">
+                  <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Inquire Now
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="product-card" data-name="My Protine Protein Powder">
+            <div class="product-img-wrap" style="background:#fff;border-bottom:1px solid var(--color-border);">
+              <img src="/assets/images/products/my-protine.jpg" alt="My Protine Protein Powder" style="width:100%;height:220px;object-fit:contain;padding:12px;background:#fff;">
+            </div>
+            <div class="product-card-body">
+              <span class="badge badge-rx product-card-form">Rx — Physician</span>
+              <h2 class="product-card-name">My Protine Protein Powder</h2>
+              <div class="product-composition">
+                <i class="fa-solid fa-flask-vial fa-fw" aria-hidden="true"></i>
+                <span><strong>Composition:</strong> Protein Powder with DHA (Sugar Free)</span>
+              </div>
+              <div class="product-uses">
+                <i class="fa-solid fa-kit-medical fa-fw" aria-hidden="true"></i>
+                <span><strong>Indication:</strong> General wellness</span>
+              </div>
+              <div class="product-card-footer">
+                <a href="/contact.html" class="btn btn-primary btn-sm product-inquire-btn" data-product="My Protine Protein Powder">
+                  <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Inquire Now
+                </a>
+              </div>
+            </div>
+          </article>
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-col-brand">
+        <div class="footer-logo">
+          <img src="/assets/images/logo.png" alt="STENMEDS BIOTECH Logo" class="logo-img" style="height:44px;background:#fff;padding:4px;border-radius:6px;">
+        </div>
+        <p class="footer-desc">STENMEDS BIOTECH is a trusted pharmaceutical company dedicated to providing high-quality, certified healthcare formulations across specialized medical divisions.</p>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="/index.html"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+          <li><a href="/about.html"><i class="fa-solid fa-chevron-right"></i> About Us</a></li>
+          <li><a href="/products.html"><i class="fa-solid fa-chevron-right"></i> Our Products</a></li>
+          <li><a href="/contact.html"><i class="fa-solid fa-chevron-right"></i> Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Categories</h3>
+        <ul class="footer-links">
+          <li><a href="/products/pediatrics.html" class="dropdown-link"><i class="fa-solid fa-baby fa-fw" aria-hidden="true"></i> Pediatrics</a></li>
+          <li><a href="/products/gynecologist.html" class="dropdown-link"><i class="fa-solid fa-person-pregnant fa-fw" aria-hidden="true"></i> Gynecologist</a></li>
+          <li><a href="/products/gastro.html" class="dropdown-link"><i class="fa-solid fa-pills fa-fw" aria-hidden="true"></i> Gastro</a></li>
+          <li><a href="/products/physician.html" class="dropdown-link"><i class="fa-solid fa-user-doctor fa-fw" aria-hidden="true"></i> Physician</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Get in Touch</h3>
+        <div class="footer-contact-item">
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          <span>STENMEDS BIOTECH, India</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+          <span>info@stenmedsbiotech.com</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i>
+          <span>+91 80478 28756</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 STENMEDS BIOTECH. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+
+
+
+</body>
+</html>
